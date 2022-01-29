@@ -7,7 +7,7 @@ import (
 
 type Blockchain struct {
 	Blocks []Block
-	FirstBlock Block
+	Genesis Block
 	Difficulty int
 }
 
