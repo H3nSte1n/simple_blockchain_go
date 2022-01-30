@@ -1,4 +1,4 @@
-package data
+package block
 
 import (
 	"crypto/sha256"
@@ -8,16 +8,7 @@ import (
 	"fmt"
 )
 
-type Block struct {
-	Nr 				int
-	Hash			string
-	PrevHash  string
-	Timestamp int64
-	Data      map[string]interface{}
-	Nonce     int
-}
-
-func (b Block) calculateHash() big.Int {
+func (b Block) CalculateHash() big.Int {
 	var bigInt big.Int
 	var blockHash [32]byte
 
@@ -32,8 +23,4 @@ func (b Block) calculateHash() big.Int {
 
 	bigInt.SetBytes(blockHash[:])
 	return bigInt
-}
-
-func (b Block) validate(pow PoW) bool {
-	return pow.proof(b.calculateHash())
 }

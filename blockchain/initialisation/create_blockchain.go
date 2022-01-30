@@ -1,7 +1,9 @@
 package initialisation
 
 import (
-	"blockchain/data"
+	"blockchain/data/block"
+	"blockchain/data/pow"
+	"blockchain/data/blockchain"
 	"time"
 )
 
@@ -19,7 +21,7 @@ func CreateBlockchain() data.Blockchain {
 		PoWs: []data.PoW{},
 	}
 
-	difficulty := 25
+	difficulty := 3
 	chain.AddPoW(difficulty)
 	return chain
 }
