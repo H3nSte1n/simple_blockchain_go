@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  mongodb_blockchain:
+    image: mongo
+    container_name: mongodb_blockchain
+    volumes:
+      - ./.docker_data/mongodb:/data/db
+    ports:
+      - 27017:27017
+    restart: always
+
+  blockchain:
+    build: ./blockchain
+    container_name: blockchain
+    environment:
+      - MONGODB_USERNAME=${MONGODB_USERNAME}
+      - MONGODB_PASSWORD=${MONGODB_PASSWORD}
+      - SIGNATURE_SECRET=${SIGNATURE_SECRET}
+    volumes:
+      - ./blockchain:/opt/app/blockchain
+    depends_on:
+      - mongodb_blockchain
+    ports:
+      - 5002:5002
