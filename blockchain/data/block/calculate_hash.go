@@ -3,9 +3,9 @@ package block
 import (
 	"crypto/sha256"
 	"encoding/json"
-	"strconv"
-	"math/big"
 	"fmt"
+	"math/big"
+	"strconv"
 )
 
 func (b Block) CalculateHash() big.Int {

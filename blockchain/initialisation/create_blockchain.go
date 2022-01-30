@@ -2,26 +2,38 @@ package initialisation
 
 import (
 	"blockchain/data/block"
+	chain "blockchain/data/blockchain"
 	"blockchain/data/pow"
-	"blockchain/data/blockchain"
+	"blockchain/db"
 	"time"
 )
 
-func CreateBlockchain() data.Blockchain {
-	genesis := data.Block{
-		Nr: 0,
-		Hash: "0",
+func ResetCollection() {
+	err_block_c := db.ResetBlockCollection()
+	err_pow_c := db.ResetPoWCollection()
+
+	if err_block_c != nil || err_pow_c != nil {
+		panic("Error resetting collections")
+	}
+}
+
+func CreateBlockchain() chain.Blockchain {
+	ResetCollection()
+
+	genesis := block.Block{
+		Nr:        0,
+		Hash:      "0",
 		Timestamp: time.Now().Unix(),
-		Nonce: 0,
+		Nonce:     0,
 	}
 
-	chain := data.Blockchain{
+	chain := chain.Blockchain{
 		Genesis: genesis,
-		Blocks: []data.Block{genesis},
-		PoWs: []data.PoW{},
+		Blocks:  []block.Block{genesis},
+		PoWs:    []pow.PoW{},
 	}
 
-	difficulty := 3
+	difficulty := 24
 	chain.AddPoW(difficulty)
 	return chain
 }

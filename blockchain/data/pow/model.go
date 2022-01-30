@@ -3,6 +3,7 @@ package pow
 import "math/big"
 
 type PoW struct {
-	Target				 *big.Int  	`json:"target"`
-	Difficulty		 *int				`json:"difficulty"`
+	Nr         int      `json:"nr" bson:"_id,omitempty"`
+	Target     *big.Int `json:"target"`
+	Difficulty *int     `json:"difficulty"`
 }

@@ -1,8 +1,8 @@
 package chain
 
 import (
-	"time"
 	"blockchain/data/block"
+	"time"
 )
 
 func (chain Blockchain) mineBlock(b *block.Block) {

@@ -1,16 +1,17 @@
 package chain
 
 import (
-	"math/big"
 	"blockchain/data/pow"
 	"blockchain/db"
+	"math/big"
 )
 
 func (chain *Blockchain) AddPoW(difficulty int) {
 	target := big.NewInt(1)
 	target.Lsh(target, uint(256-difficulty))
 	newPoW := pow.PoW{
-		Target: target,
+		Nr:         len(chain.PoWs) + 1,
+		Target:     target,
 		Difficulty: &difficulty,
 	}
 

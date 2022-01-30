@@ -1,12 +1,12 @@
 package chain
 
 import (
-	"blockchain/data/pow"
 	"blockchain/data/block"
+	"blockchain/data/pow"
 )
 
 type Blockchain struct {
-	Blocks []block.Block
+	Blocks  []block.Block
 	Genesis block.Block
-	PoWs 		[]pow.PoW
+	PoWs    []pow.PoW
 }

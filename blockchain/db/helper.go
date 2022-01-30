@@ -1,13 +1,13 @@
 package db
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/bson"
 	"log"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 //Create creating a task in a mongo or document db
-func Create[T any](object T, model string) (primitive.ObjectID, error) {
+func Create[T any](object T, model string) (*int32, error) {
 	client, ctx, cancel := getConnection()
 	defer cancel()
 	defer client.Disconnect(ctx)
@@ -15,11 +15,11 @@ func Create[T any](object T, model string) (primitive.ObjectID, error) {
 	result, err := client.Database(model).Collection(model).InsertOne(ctx, object)
 	if err != nil {
 		log.Printf("Could not create %q: %v", model, err)
-		return primitive.NilObjectID, err
+		return nil, err
 	}
 
-	oid := result.InsertedID.(primitive.ObjectID)
-	return oid, nil
+	oid := result.InsertedID.(int32)
+	return &oid, nil
 }
 
 //Create creating a task in a mongo or document db
@@ -42,4 +42,18 @@ func GetList[T any](model string) ([]T, error) {
 	}
 
 	return res, err
+}
+
+func ResetCollection(model string) error {
+	client, ctx, cancel := getConnection()
+	defer cancel()
+	defer client.Disconnect(ctx)
+
+	_, err := client.Database(model).Collection(model).DeleteMany(ctx, bson.D{})
+	if err != nil {
+		log.Printf("Could not fetch %q: %v", model, err)
+		return err
+	}
+
+	return nil
 }
